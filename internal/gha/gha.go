@@ -17,28 +17,17 @@ func RtnClient() *github.Client {
 	return github.NewClient(nil).WithAuthToken(token)
 }
 
-func getStartTime(run github.WorkflowRun) time.Time {
-	// https://github.com/cli/cli/blob/trunk/pkg/cmd/run/shared/shared.go#L110
-	if run.RunStartedAt.IsZero() {
-		return run.RunStartedAt.Time
-	}
-	return run.CreatedAt.Time
-}
-
 func GetRuns(client *github.Client, count int, owner, repo, filename, branch, status string) ([]types.Run, error) {
 	runs := make([]types.Run, 0, count)
 	lopts := github.ListOptions{PerPage: 100}
-	opts := github.ListWorkflowRunsOptions{ListOptions: lopts, Branch: branch, Status: status}
+	opts := github.ListWorkflowRunsOptions{Branch: branch, Status: status, ListOptions: lopts}
 	for {
 		wruns, resp, err := client.Actions.ListWorkflowRunsByFileName(context.Background(), owner, repo, filename, &opts)
 		if err != nil {
 			return nil, err
 		}
 		for _, v := range wruns.WorkflowRuns {
-			endtime := v.UpdatedAt
-			starttime := getStartTime(*v)
-			elapsed := endtime.Sub(starttime).Round(time.Second).Seconds()
-			runs = append(runs, types.Run{Name: *v.Name, Starttime: starttime, Elapsed: elapsed})
+			runs = append(runs, makeRun(*v))
 			if len(runs) == count {
 				return runs, nil
 			}
@@ -49,4 +38,19 @@ func GetRuns(client *github.Client, count int, owner, repo, filename, branch, st
 		opts.Page = resp.NextPage
 	}
 	return runs, nil
+}
+
+func makeRun(wrun github.WorkflowRun) types.Run {
+	endtime := wrun.UpdatedAt
+	starttime := getStartTime(wrun)
+	elapsed := endtime.Sub(starttime).Round(time.Second).Seconds()
+	return types.Run{Name: *wrun.Name, Starttime: starttime, Elapsed: elapsed}
+}
+
+func getStartTime(wrun github.WorkflowRun) time.Time {
+	// https://github.com/cli/cli/blob/trunk/pkg/cmd/run/shared/shared.go#L110
+	if wrun.RunStartedAt.IsZero() {
+		return wrun.RunStartedAt.Time
+	}
+	return wrun.CreatedAt.Time
 }
