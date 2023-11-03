@@ -88,11 +88,11 @@ func init() {
 	// Cobra also supports local flags, which will only run
 	// when this action is called directly.
 	rootCmd.Flags().BoolP("toggle", "t", false, "Help message for toggle")
-	rootCmd.Flags().StringVar(&owner, "owner", "", "Owner of the Action")
-	rootCmd.Flags().StringVar(&repo, "repo", "", "Repository of the Action")
-	rootCmd.Flags().StringVar(&filename, "filename", "", "Filename of the Action")
+	rootCmd.Flags().StringVar(&owner, "owner", "", "Owner of the Action (Required)")
+	rootCmd.Flags().StringVar(&repo, "repo", "", "Repository of the Action (Required)")
+	rootCmd.Flags().StringVar(&filename, "filename", "", "Filename of the Action (Required)")
 	rootCmd.Flags().StringVar(&branch, "branch", "", "Branch name to filter results")
-	rootCmd.Flags().IntVar(&count, "count", 30, "number of Workflow runs")
+	rootCmd.Flags().IntVar(&count, "count", 30, "count of Workflow runs")
 	rootCmd.MarkFlagRequired("owner")
 	rootCmd.MarkFlagRequired("repo")
 	rootCmd.MarkFlagRequired("filename")
