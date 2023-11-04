@@ -9,6 +9,9 @@ import (
 )
 
 func SavePng(runs []types.Run) error {
+	if len(runs) == 0 {
+		return nil
+	}
 	p := plot.New()
 
 	p.Title.Text = runs[0].Name

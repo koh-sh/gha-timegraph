@@ -27,10 +27,10 @@ func GetRuns(client *github.Client, count int, owner, repo, filename, branch, st
 			return nil, err
 		}
 		for _, v := range wfruns.WorkflowRuns {
-			runs = append(runs, makeRun(*v))
 			if len(runs) == count {
 				return runs, nil
 			}
+			runs = append(runs, makeRun(*v))
 		}
 		if resp.NextPage == 0 {
 			break
