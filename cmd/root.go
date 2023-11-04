@@ -101,7 +101,7 @@ func init() {
 	rootCmd.Flags().StringVar(&repo, "repo", "", "Repository of the Action (Required)")
 	rootCmd.Flags().StringVar(&filename, "filename", "", "Filename of the Action (Required)")
 	rootCmd.Flags().StringVar(&branch, "branch", "", "Branch name to filter results")
-	rootCmd.Flags().StringVar(&out, "out", "csv", "format of output (csv or png)")
+	rootCmd.Flags().StringVar(&out, "out", "png", "format of output (csv or png)")
 	rootCmd.Flags().IntVar(&count, "count", 30, "count of Workflow runs")
 	rootCmd.MarkFlagRequired("owner")
 	rootCmd.MarkFlagRequired("repo")
