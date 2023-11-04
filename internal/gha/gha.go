@@ -19,7 +19,7 @@ func RtnClient() *github.Client {
 
 func GetRuns(client *github.Client, count int, owner, repo, filename, branch, status string) ([]types.Run, error) {
 	runs := make([]types.Run, 0, count)
-	lopts := github.ListOptions{PerPage: 100}
+	lopts := github.ListOptions{PerPage: min(count, 100)}
 	opts := github.ListWorkflowRunsOptions{Branch: branch, Status: status, ListOptions: lopts}
 	for {
 		wfruns, resp, err := client.Actions.ListWorkflowRunsByFileName(context.Background(), owner, repo, filename, &opts)
