@@ -59,6 +59,9 @@ to quickly create a Cobra application.`,
 
 		// parameters
 		status := "success"
+		if count < 0 {
+			log.Fatal("count shall be bigger than 0")
+		}
 
 		runs, err := gha.GetRuns(client, count, owner, repo, filename, branch, status)
 		if err != nil {
