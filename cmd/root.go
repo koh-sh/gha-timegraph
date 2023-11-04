@@ -27,6 +27,7 @@ import (
 	"os"
 
 	"github.com/koh-sh/gha-timegraph/internal/gha"
+	"github.com/koh-sh/gha-timegraph/internal/plotpng"
 	"github.com/spf13/cobra"
 )
 
@@ -36,6 +37,7 @@ var (
 	repo     string
 	filename string
 	branch   string
+	out      string
 	count    int
 )
 
@@ -62,9 +64,16 @@ to quickly create a Cobra application.`,
 		if err != nil {
 			log.Fatal(err)
 		}
-		fmt.Printf("%s,%s,%s\n", "Name", "StartTime(UTC)", "Elapsed")
-		for _, v := range runs {
-			fmt.Printf("%s,%s,%g\n", v.Name, v.Starttime.Format("2006-01-02 15:04:05"), v.Elapsed)
+		if out == "csv" {
+			fmt.Printf("%s,%s,%s\n", "Name", "StartTime(UTC)", "Elapsed")
+			for _, v := range runs {
+				fmt.Printf("%s,%s,%g\n", v.Name, v.Starttime.Format("2006-01-02 15:04:05"), v.Elapsed)
+			}
+		} else if out == "png" {
+			err := plotpng.SavePng(runs)
+			if err != nil {
+				log.Fatal(err)
+			}
 		}
 	},
 }
@@ -92,6 +101,7 @@ func init() {
 	rootCmd.Flags().StringVar(&repo, "repo", "", "Repository of the Action (Required)")
 	rootCmd.Flags().StringVar(&filename, "filename", "", "Filename of the Action (Required)")
 	rootCmd.Flags().StringVar(&branch, "branch", "", "Branch name to filter results")
+	rootCmd.Flags().StringVar(&out, "out", "csv", "format of output (csv or png)")
 	rootCmd.Flags().IntVar(&count, "count", 30, "count of Workflow runs")
 	rootCmd.MarkFlagRequired("owner")
 	rootCmd.MarkFlagRequired("repo")
