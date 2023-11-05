@@ -50,7 +50,7 @@ func makeRun(wfrun github.WorkflowRun) types.Run {
 func getStartTime(wfrun github.WorkflowRun) time.Time {
 	// https://github.com/cli/cli/blob/trunk/pkg/cmd/run/shared/shared.go#L110
 	if wfrun.RunStartedAt.IsZero() {
-		return wfrun.RunStartedAt.Time
+		return wfrun.CreatedAt.Time
 	}
-	return wfrun.CreatedAt.Time
+	return wfrun.RunStartedAt.Time
 }
