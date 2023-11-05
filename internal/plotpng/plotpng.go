@@ -18,7 +18,7 @@ func SavePng(runs []types.Run, outfile string) error {
 	p.Title.Text = runs[0].Name
 	p.X.AutoRescale = true
 	p.X.Label.Text = "StartTime(UTC)"
-	p.Y.Label.Text = "Elapsed (Sec)"
+	p.Y.Label.Text = "Elapsed(Sec)"
 	p.X.Tick.Marker = plot.TimeTicks{
 		Format: "2006-01-02 15:04:05",
 	}
