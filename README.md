@@ -42,7 +42,7 @@ Flags:
 
 ## QuickStart
 
-### create PNG graph with the command
+### Create PNG graph with the command
 
 Run this command with options would create png graph of GitHub Actions execution time.
 
@@ -53,24 +53,24 @@ PNG save to graph.png
 -rw-r--r--@ 1 koh  staff  43189 Nov  5 15:56 graph.png
 ```
 
-### use options to change plot counts or filter branch
+### Use options to change plot counts or filter branch
 
 ```bash
       --branch string     Branch name to filter results
       --count int         count of Workflow runs (default 30)
 ```
 
-### set GITHUB_TOKEN for private repositories
+### Set GITHUB_TOKEN for private repositories
 
 Or If you hit API rate limit, set GITHUB_TOKEN and retry.
 
 ```bash
-export GITHUB_TOKEN="your Personal Access Token"
-gha-timegraph --owner koh-sh --repo [name of private repo] --workflow go-test.yml
+% export GITHUB_TOKEN="your Personal Access Token"
+% gha-timegraph --owner koh-sh --repo [name of private repo] --workflow go-test.yml
 
 ```
 
-### dump data other than PNG
+### Dump data other than PNG
 
 Currently it supports CSV output too.
 
