@@ -67,3 +67,22 @@ func Test_makeRun(t *testing.T) {
 		})
 	}
 }
+
+func TestRtnClient(t *testing.T) {
+	tests := []struct {
+		name string
+		want *github.Client
+	}{
+		{
+			name: "basic",
+			want: github.NewClient(nil),
+		},
+	}
+	for _, tt := range tests {
+		t.Run(tt.name, func(t *testing.T) {
+			if got := RtnClient(); !reflect.DeepEqual(got, tt.want) {
+				t.Errorf("RtnClient() = %v, want %v", got, tt.want)
+			}
+		})
+	}
+}
