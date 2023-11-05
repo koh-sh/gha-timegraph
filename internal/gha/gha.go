@@ -9,6 +9,7 @@ import (
 	"github.com/koh-sh/gha-timegraph/internal/types"
 )
 
+// return client of github api
 func RtnClient() *github.Client {
 	token := os.Getenv("GITHUB_TOKEN")
 	if token == "" {
@@ -17,6 +18,7 @@ func RtnClient() *github.Client {
 	return github.NewClient(nil).WithAuthToken(token)
 }
 
+// return list of types.Run from GitHub Workflow runs
 func GetRuns(client *github.Client, count int, owner, repo, filename, branch, status string) ([]types.Run, error) {
 	runs := make([]types.Run, 0, count)
 	lopts := github.ListOptions{PerPage: min(count, 100)}
@@ -40,6 +42,7 @@ func GetRuns(client *github.Client, count int, owner, repo, filename, branch, st
 	return runs, nil
 }
 
+// make types.Run from GitHub Workflow run
 func makeRun(wfrun github.WorkflowRun) types.Run {
 	endtime := wfrun.UpdatedAt
 	starttime := getStartTime(wfrun)
@@ -47,6 +50,7 @@ func makeRun(wfrun github.WorkflowRun) types.Run {
 	return types.Run{Name: *wfrun.Name, Starttime: starttime, Elapsed: elapsed}
 }
 
+// get start time
 func getStartTime(wfrun github.WorkflowRun) time.Time {
 	// https://github.com/cli/cli/blob/trunk/pkg/cmd/run/shared/shared.go#L110
 	if wfrun.RunStartedAt.IsZero() {

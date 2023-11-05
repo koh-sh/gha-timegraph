@@ -85,11 +85,13 @@ func TestSavePng(t *testing.T) {
 			}
 		})
 	}
+	// check the output from basic case
 	if getFileMD5("tmp/out.png") != getFileMD5("testdata/out.png_") {
 		t.Errorf("output file is not same")
 	}
 }
 
+// get MD5Sum from png file
 func getFileMD5(filepath string) string {
 	b, err := os.ReadFile(filepath)
 	if err != nil {

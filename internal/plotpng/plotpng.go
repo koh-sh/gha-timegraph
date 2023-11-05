@@ -8,6 +8,7 @@ import (
 	"gonum.org/v1/plot/vg"
 )
 
+// plot and save png
 func SavePng(runs []types.Run, outfile string) error {
 	if len(runs) == 0 {
 		return nil
@@ -34,6 +35,7 @@ func SavePng(runs []types.Run, outfile string) error {
 	return nil
 }
 
+// convert Run to plots
 func rtnPlots(runs []types.Run) plotter.XYs {
 	pts := make(plotter.XYs, len(runs))
 	for i := range pts {
