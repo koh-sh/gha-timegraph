@@ -7,10 +7,12 @@
 *.dll
 *.so
 *.dylib
-*.png
+gha-timegraph
 
 # Test binary, built with `go test -c`
 *.test
+out.png
+graph.png
 
 # Output of the go coverage tool, specifically when used with LiteIDE
 *.out
