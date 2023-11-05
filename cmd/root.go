@@ -67,16 +67,16 @@ Set GITHUB_TOKEN for private repositories.`,
 			log.Fatal(err)
 		}
 		if out == "csv" {
-			fmt.Printf("%s,%s,%s\n", "Name", "StartTime(UTC)", "Elapsed")
+			fmt.Printf("%s,%s,%s\n", "Name", "StartTime(UTC)", "Elapsed(Sec)")
 			for _, v := range runs {
-				fmt.Printf("%s,%s,%g\n", v.Name, v.Starttime.Format("2006-01-02 15:04:05"), v.Elapsed)
+				fmt.Println(v.RtnCSVrow())
 			}
 		} else if out == "png" {
 			err := plotpng.SavePng(runs, outfile)
 			if err != nil {
 				log.Fatal(err)
 			}
-			fmt.Printf("PNG save to %s\n", outfile)
+			fmt.Printf("PNG saved to %s\n", outfile)
 		}
 	},
 }
