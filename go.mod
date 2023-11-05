@@ -6,7 +6,7 @@ toolchain go1.21.0
 
 require (
 	github.com/google/go-github/v56 v56.0.0
-	github.com/spf13/cobra v1.7.0
+	github.com/spf13/cobra v1.8.0
 	gonum.org/v1/plot v0.14.0
 )
 
