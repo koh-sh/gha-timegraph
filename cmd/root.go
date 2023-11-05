@@ -35,9 +35,10 @@ import (
 var (
 	owner    string
 	repo     string
-	filename string
+	workflow string
 	branch   string
 	out      string
+	outfile  string
 	count    int
 )
 
@@ -63,7 +64,7 @@ to quickly create a Cobra application.`,
 			log.Fatal("count shall be bigger than 0")
 		}
 
-		runs, err := gha.GetRuns(client, count, owner, repo, filename, branch, status)
+		runs, err := gha.GetRuns(client, count, owner, repo, workflow, branch, status)
 		if err != nil {
 			log.Fatal(err)
 		}
@@ -73,10 +74,11 @@ to quickly create a Cobra application.`,
 				fmt.Printf("%s,%s,%g\n", v.Name, v.Starttime.Format("2006-01-02 15:04:05"), v.Elapsed)
 			}
 		} else if out == "png" {
-			err := plotpng.SavePng(runs)
+			err := plotpng.SavePng(runs, outfile)
 			if err != nil {
 				log.Fatal(err)
 			}
+			fmt.Printf("PNG save to %s\n", outfile)
 		}
 	},
 }
@@ -102,13 +104,14 @@ func init() {
 	rootCmd.Flags().BoolP("toggle", "t", false, "Help message for toggle")
 	rootCmd.Flags().StringVar(&owner, "owner", "", "Owner of the Action (Required)")
 	rootCmd.Flags().StringVar(&repo, "repo", "", "Repository of the Action (Required)")
-	rootCmd.Flags().StringVar(&filename, "filename", "", "Filename of the Action (Required)")
+	rootCmd.Flags().StringVar(&workflow, "workflow", "", "workflow filename of the Action (Required)")
 	rootCmd.Flags().StringVar(&branch, "branch", "", "Branch name to filter results")
 	rootCmd.Flags().StringVar(&out, "out", "png", "format of output (csv or png)")
+	rootCmd.Flags().StringVar(&outfile, "outfile", "graph.png", "name of output png file")
 	rootCmd.Flags().IntVar(&count, "count", 30, "count of Workflow runs")
 	rootCmd.MarkFlagRequired("owner")
 	rootCmd.MarkFlagRequired("repo")
-	rootCmd.MarkFlagRequired("filename")
+	rootCmd.MarkFlagRequired("workflow")
 }
 
 // set version from goreleaser variables

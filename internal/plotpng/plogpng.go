@@ -8,7 +8,7 @@ import (
 	"gonum.org/v1/plot/vg"
 )
 
-func SavePng(runs []types.Run) error {
+func SavePng(runs []types.Run, outfile string) error {
 	if len(runs) == 0 {
 		return nil
 	}
@@ -28,7 +28,7 @@ func SavePng(runs []types.Run) error {
 	}
 
 	// Save the plot to a PNG file.
-	if err := p.Save(8*vg.Inch, 8*vg.Inch, "points.png"); err != nil {
+	if err := p.Save(8*vg.Inch, 8*vg.Inch, outfile); err != nil {
 		return err
 	}
 	return nil
