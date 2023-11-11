@@ -32,7 +32,13 @@ func GetRuns(client *github.Client, count int, owner, repo, filename, branch, st
 			if len(runs) == count {
 				return runs, nil
 			}
-			runs = append(runs, makeRun(*v))
+			run := makeRun(*v)
+			// If the run is older than a year, UpdatedAt is updated.
+			// Too big Elapsed could be noise so should be omitted.
+			if run.Elapsed > 60*60*24*365 {
+				return runs, nil
+			}
+			runs = append(runs, run)
 		}
 		if resp.NextPage == 0 {
 			break
