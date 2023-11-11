@@ -15,7 +15,7 @@ fmt:
 	gofumpt -l -w *.go
 
 cov:
-	go test -cover ./... -coverprofile=$(COVFILE)
+	export -n GITHUB_TOKEN;go test -cover ./... -coverprofile=$(COVFILE)
 	go tool cover -html=$(COVFILE) -o $(COVHTML)
 	rm $(COVFILE)
 
