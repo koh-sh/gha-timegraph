@@ -40,6 +40,7 @@ var (
 	out      string
 	outfile  string
 	count    int
+	silent   bool
 )
 
 // rootCmd represents the base command when called without any subcommands
@@ -62,7 +63,7 @@ Set GITHUB_TOKEN for private repositories.`,
 			log.Fatal("count shall be bigger than 0")
 		}
 
-		runs, err := gha.GetRuns(client, count, owner, repo, workflow, branch, status)
+		runs, err := gha.GetRuns(client, count, owner, repo, workflow, branch, status, silent)
 		if err != nil {
 			log.Fatal(err)
 		}
@@ -107,6 +108,7 @@ func init() {
 	rootCmd.Flags().StringVar(&out, "out", "png", "format of output (csv or png)")
 	rootCmd.Flags().StringVar(&outfile, "outfile", "graph.png", "name of output png file")
 	rootCmd.Flags().IntVar(&count, "count", 30, "count of Workflow runs")
+	rootCmd.Flags().BoolVar(&silent, "silent", false, "Hide Progress bar for GitHub API")
 	rootCmd.MarkFlagRequired("owner")
 	rootCmd.MarkFlagRequired("repo")
 	rootCmd.MarkFlagRequired("workflow")

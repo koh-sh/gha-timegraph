@@ -22,7 +22,7 @@ Or download prebuild binary from [Releases](https://github.com/koh-sh/gha-timegr
 Graphs the execution time of GitHub Actions.
 
 It creates GitHub Actions execution time as PNG graph.
-Set GITHUB_TOKEN for private repository.
+Set GITHUB_TOKEN for private repositories.
 
 Usage:
   gha-timegraph [flags]
@@ -35,6 +35,7 @@ Flags:
       --outfile string    name of output png file (default "graph.png")
       --owner string      Owner of the Action (Required)
       --repo string       Repository of the Action (Required)
+      --silent            Hide Progress bar for GitHub API
   -t, --toggle            Help message for toggle
   -v, --version           version for gha-timegraph
       --workflow string   workflow filename of the Action (Required)

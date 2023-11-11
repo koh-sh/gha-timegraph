@@ -9,7 +9,7 @@ setup:
 	go install github.com/golangci/golangci-lint/cmd/golangci-lint@latest
 
 test:
-	go test ./... -json | tparse -all
+	export -n GITHUB_TOKEN; go test ./... -json | tparse -all
 
 fmt:
 	gofumpt -l -w *.go
