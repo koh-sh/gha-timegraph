@@ -7,6 +7,7 @@ import (
 
 	"github.com/google/go-github/v56/github"
 	"github.com/koh-sh/gha-timegraph/internal/types"
+	"github.com/schollz/progressbar/v3"
 )
 
 // return client of github api
@@ -19,23 +20,34 @@ func RtnClient() *github.Client {
 }
 
 // return list of types.Run from GitHub Workflow runs
-func GetRuns(client *github.Client, count int, owner, repo, filename, branch, status string) ([]types.Run, error) {
+func GetRuns(client *github.Client, count int, owner, repo, filename, branch, status string, silent bool) ([]types.Run, error) {
+	// setup
 	runs := make([]types.Run, 0, count)
 	lopts := github.ListOptions{PerPage: min(count, 100)}
 	opts := github.ListWorkflowRunsOptions{Branch: branch, Status: status, ListOptions: lopts}
+
+	// show progress bar
+	var bar *progressbar.ProgressBar
+	if !silent {
+		bar = progressbar.Default(int64(count))
+	}
+
 	for {
 		wfruns, resp, err := client.Actions.ListWorkflowRunsByFileName(context.Background(), owner, repo, filename, &opts)
 		if err != nil {
 			return nil, err
 		}
+		if !silent {
+			bar.Add(min(count, 100))
+		}
 		for _, v := range wfruns.WorkflowRuns {
-			if len(runs) == count {
-				return runs, nil
-			}
 			run := makeRun(*v)
 			// If the run is older than a year, UpdatedAt is updated.
 			// Too big Elapsed could be noise so should be omitted.
-			if run.Elapsed > 60*60*24*365 {
+			if len(runs) == count || run.Elapsed > 60*60*24*365 {
+				if !silent {
+					bar.Finish()
+				}
 				return runs, nil
 			}
 			runs = append(runs, run)
