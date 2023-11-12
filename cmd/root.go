@@ -105,7 +105,7 @@ func init() {
 	rootCmd.Flags().StringVar(&repo, "repo", "", "Repository of the Action (Required)")
 	rootCmd.Flags().StringVar(&workflow, "workflow", "", "workflow filename of the Action (Required)")
 	rootCmd.Flags().StringVar(&branch, "branch", "", "Branch name to filter results")
-	rootCmd.Flags().StringVar(&out, "out", "png", "format of output (csv or png)")
+	rootCmd.Flags().StringVar(&out, "out", "png", "format of output 'png|csv|table|json'")
 	rootCmd.Flags().StringVar(&outfile, "outfile", "graph.png", "name of output png file")
 	rootCmd.Flags().IntVar(&count, "count", 30, "count of Workflow runs")
 	rootCmd.Flags().BoolVar(&silent, "silent", false, "Hide Progress bar for GitHub API")
