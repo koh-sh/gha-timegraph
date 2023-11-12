@@ -288,16 +288,17 @@ func mockClient(ptn string) *github.Client {
 					},
 				},
 				github.WorkflowRuns{
+					// older run comes first to test sortRuns()
 					WorkflowRuns: []*github.WorkflowRun{
-						{
-							Name:         github.String("test"),
-							UpdatedAt:    &github.Timestamp{Time: time.Date(2022, 4, 1, 7, 5, 0, 0, time.UTC)},
-							RunStartedAt: &github.Timestamp{Time: time.Date(2022, 4, 1, 7, 0, 0, 0, time.UTC)},
-						},
 						{
 							Name:         github.String("test"),
 							UpdatedAt:    &github.Timestamp{Time: time.Date(2022, 4, 1, 6, 5, 0, 0, time.UTC)},
 							RunStartedAt: &github.Timestamp{Time: time.Date(2022, 4, 1, 6, 0, 0, 0, time.UTC)},
+						},
+						{
+							Name:         github.String("test"),
+							UpdatedAt:    &github.Timestamp{Time: time.Date(2022, 4, 1, 7, 5, 0, 0, time.UTC)},
+							RunStartedAt: &github.Timestamp{Time: time.Date(2022, 4, 1, 7, 0, 0, 0, time.UTC)},
 						},
 					},
 				},
