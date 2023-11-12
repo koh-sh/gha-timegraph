@@ -28,6 +28,7 @@ import (
 
 	"github.com/koh-sh/gha-timegraph/internal/gha"
 	"github.com/koh-sh/gha-timegraph/internal/plotpng"
+	"github.com/koh-sh/gha-timegraph/internal/stdout"
 	"github.com/spf13/cobra"
 )
 
@@ -67,17 +68,16 @@ Set GITHUB_TOKEN for private repositories.`,
 		if err != nil {
 			log.Fatal(err)
 		}
-		if out == "csv" {
-			fmt.Printf("%s,%s,%s\n", "Name", "StartTime(UTC)", "Elapsed(Sec)")
-			for _, v := range runs {
-				fmt.Println(v.RtnCSVrow())
-			}
-		} else if out == "png" {
+		if out == "png" {
 			err := plotpng.SavePng(runs, outfile)
 			if err != nil {
 				log.Fatal(err)
 			}
 			fmt.Printf("PNG saved to %s\n", outfile)
+		} else {
+			if e := stdout.PrintRuns(runs, out); e != nil {
+				log.Fatal(e)
+			}
 		}
 	},
 }
