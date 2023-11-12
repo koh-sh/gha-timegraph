@@ -3,6 +3,7 @@ package gha
 import (
 	"context"
 	"os"
+	"sort"
 	"time"
 
 	"github.com/google/go-github/v56/github"
@@ -45,7 +46,7 @@ func GetRuns(client *github.Client, count int, owner, repo, filename, branch, st
 				if !silent {
 					bar.Finish()
 				}
-				return runs, nil
+				return sortRuns(runs), nil
 			}
 			runs = append(runs, run)
 			if !silent {
@@ -56,7 +57,7 @@ func GetRuns(client *github.Client, count int, owner, repo, filename, branch, st
 			if !silent {
 				bar.Finish()
 			}
-			return runs, nil
+			return sortRuns(runs), nil
 		}
 		opts.Page = resp.NextPage
 	}
@@ -77,4 +78,10 @@ func getStartTime(wfrun github.WorkflowRun) time.Time {
 		return wfrun.CreatedAt.Time
 	}
 	return wfrun.RunStartedAt.Time
+}
+
+// sort Runs
+func sortRuns(runs []types.Run) []types.Run {
+	sort.SliceStable(runs, func(i, j int) bool { return runs[i].Starttime.Compare(runs[j].Starttime) >= 0 })
+	return runs
 }
