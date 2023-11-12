@@ -31,7 +31,7 @@ Flags:
       --branch string     Branch name to filter results
       --count int         count of Workflow runs (default 30)
   -h, --help              help for gha-timegraph
-      --out string        format of output (csv or png) (default "png")
+      --out string        format of output 'png|csv|table|json' (default "png")
       --outfile string    name of output png file (default "graph.png")
       --owner string      Owner of the Action (Required)
       --repo string       Repository of the Action (Required)
@@ -73,7 +73,7 @@ Or If you hit API rate limit, set GITHUB_TOKEN and retry.
 
 ### Dump data other than PNG
 
-Currently it supports CSV output too.
+Currently it supports CSV, MarkDown Table, and Json output too.
 
 ```bash
 % gha-timegraph --owner koh-sh --repo codebuild-multirunner --workflow go-test.yml --count 10 --out csv
