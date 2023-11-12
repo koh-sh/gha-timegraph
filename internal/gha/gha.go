@@ -37,9 +37,6 @@ func GetRuns(client *github.Client, count int, owner, repo, filename, branch, st
 		if err != nil {
 			return nil, err
 		}
-		if !silent {
-			bar.Add(min(count, 100))
-		}
 		for _, v := range wfruns.WorkflowRuns {
 			run := makeRun(*v)
 			// If the run is older than a year, UpdatedAt is updated.
@@ -51,13 +48,18 @@ func GetRuns(client *github.Client, count int, owner, repo, filename, branch, st
 				return runs, nil
 			}
 			runs = append(runs, run)
+			if !silent {
+				bar.Add(1)
+			}
 		}
 		if resp.NextPage == 0 {
-			break
+			if !silent {
+				bar.Finish()
+			}
+			return runs, nil
 		}
 		opts.Page = resp.NextPage
 	}
-	return runs, nil
 }
 
 // make types.Run from GitHub Workflow run
