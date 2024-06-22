@@ -8,7 +8,7 @@ require (
 	github.com/google/go-github/v56 v56.0.0
 	github.com/migueleliasweb/go-github-mock v0.0.23
 	github.com/schollz/progressbar/v3 v3.14.4
-	github.com/spf13/cobra v1.8.0
+	github.com/spf13/cobra v1.8.1
 	gonum.org/v1/plot v0.14.0
 )
 
